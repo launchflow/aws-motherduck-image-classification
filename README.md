@@ -1,45 +1,42 @@
-# motherduck-show-n-tell
+# Image Classification: AWS -> MotherDuck with LaunchFlow
 
-Welcome to BuildFlow!
+This is a simple example of how to use LaunchFlow to classify images as they are uploaded to an S3 bucket, and write the results to a table housed in MotherDuck.
 
-This is a simple example of serving the string "Hello World!" from a service [endpoint](https://docs.launchflow.com/buildflow/programming-guide/endpoints)
+To run this example, you will need to have an AWS account, and a MotherDuck account. You will also need to have the AWS CLI installed and configured with your AWS credentials.
 
-If you want to get started quickly you can run your application with:
+## Setup
+
+Update the [bucket name](https://github.com/launchflow/aws-motherduck-image-classification/blob/main/main.py#L16) in `main.py` to a bucket you would like to write the files in. This bucket does not need to be created yet.
+
+Update the [MotherDuck token](https://github.com/launchflow/aws-motherduck-image-classification/blob/main/main.py#L25) to your [MotherDuck service token](https://motherduck.com/docs/authenticating-to-motherduck/#authentication-using-a-service-token).
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Create your Resources
+
+Be sure to run `aws sso login` before doing this!
+
+Run:
+
+```
+buildflow apply
+```
+
+And type `yes` to confirm the resources you are about to create.
+
+This will create a S3 bucket, a S3 Notification, and an SQS Queue.
+
+## Run the Example
+
+Run:
 
 ```
 buildflow run
 ```
 
-Then you can visit http://localhost:8000 to see your application running.
+Visit http://localhost:8000 for a simple UI for uploading images. Once uploaded you can view the results in MotherDuck: https://app.motherduck.com
 
-## Directory Structure
-
-At the root level there are three important files:
-
-- `buildflow.yml` - This is the main configuration file for your application. It contains all the information about your application and how it should be built.
-- `main.py` - This is the entry point to your application and where your `Flow` is initialized.
-- `requirements.txt` - This is where you can specify any Python dependencies your application has.
-
-Below the root level we have:
-
-**motherduck-show-n-tell**
-
-This is the directory where your application code lives. You can put any files you want in here and they will be available to your application. We create a couple directories and files for you:
-
-- **processors**: This is where you can put any custom processors you want to use in your application. In here you will see we have defined a _service.py_ for a service in your application and a _hello_world.py_ file for a custom [endpoint](https://docs.launchflow.com/buildflow/programming-guide/endpoints) processor.
-- **primitives.py**: This is where you can define any custom [primitive](https://docs.launchflow.com/buildflow/programming-guide/primitives) resources that your application will need. Note it is empty right now since your initial application is so simple.
-- **dependencies.py**: This is where you can define any custom [dependencies](https://docs.launchflow.com/buildflow/programming-guide/dependencies) you might need.
-- **settings.py**: This file loads in our environment variables and makes them available to our application.
-
-**.buildflow**
-
-This is a hidden directory that contains all the build artifacts for your application. You can general ignore this directory and it will be automatically generated for you. If you are using github you probably want to put this in your _.gitignore_ file.
-
-## Customizing your application
-
-You application is pretty simple now but you can customize it to do anything you want. Here are some ideas:
-
-- Attach [primitives](https://docs.launchflow.com/buildflow/programming-guide/primitives) to your application to add resources like [databases](https://docs.launchflow.com/buildflow/primitives/gcp/cloud_sql), [queues](https://docs.launchflow.com/buildflow/primitives/aws/sqs), [buckets](https://docs.launchflow.com/buildflow/primitives/aws/s3), or [data warehouses](https://docs.launchflow.com/buildflow/primitives/gcp/bigquery)
-- Use [depedencies](https://docs.launchflow.com/buildflow/programming-guide/dependencies) to attach dependencies to your processors. Such as [google auth](https://docs.launchflow.com/buildflow/dependencies/auth#authenticated-google-user), [SQLAlchemy Session](https://docs.launchflow.com/buildflow/dependencies/sqlalchemy), or push data to a [sink](https://docs.launchflow.com/buildflow/dependencies/sink)
-- Add additional processors for [async processing](https://docs.launchflow.com/buildflow/programming-guide/consumers) or [data ingestion](https://docs.launchflow.com/buildflow/programming-guide/collectors)
-- Manage your entire stack with [BuildFlow's pulumi integration](https://docs.launchflow.com/buildflow/programming-guide/buildflow-yaml#pulumi-configure)

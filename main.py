@@ -14,7 +14,7 @@ from image_classification import Classification, Model
 
 
 bucket = S3Bucket(
-    bucket_name="caleb-buildflow-motherduck",
+    bucket_name="TODO",
     aws_region="us-east-1",
 ).options(force_destroy=True)
 

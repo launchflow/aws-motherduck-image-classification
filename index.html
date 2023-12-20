@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<body>
+    <div class="h-screen">
+        <div class="flex h-full flex-col">
+            <div class="h-full">
+                <nav class="top-0 flex flex-grow justify-between">
+                    <a class="m-1" href="https://launchflow.com">
+                        <img src="https://storage.googleapis.com/launchflow-public-images/launchflow-logo.png"
+                            alt="logo" style="height:30px">
+                    </a>
+                    <div class="mt-auto mb-auto sm:block hidden">
+                        <a class="m-1 hover:border-[#681dd6] border-b-2 border-white"
+                            href="https://docs.buildflow.dev">BuildFlow
+                            Docs</a>
+                        <a class="m-1 hover:border-[#681dd6] border-b-2 border-white"
+                            href="https://docs.launchflow.com">LaunchFlow
+                            Docs</a>
+                        <a class="m-1 border-[#681dd6] hover:border-b-2"
+                            href="https://join.slack.com/t/launchflowusers/shared_invite/zt-27wlowsza-Uiu~8hlCGkvPINjmMiaaMQ">Slack</a>
+                    </div>
+                </nav>
+                <div class="flex flex-col items-center justify-center m-10">
+                    <form class="m-5" id="uploadForm" enctype=" multipart/form-data">
+                        <input class="form-control" type="file" id="image_file" name="image_file">
+                        </button>
+                        <button onclick="uploadFile(event)" type="submit"
+                            class="bg-[#681dd6] text-white w-full mt-4 rounded">
+                            Upload
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    async function uploadFile(event) {
+        event.preventDefault();
+        const form = new FormData(document.getElementById('uploadForm'));
+        try {
+            const response = await fetch('/image-upload', {
+                method: 'POST',
+                body: form,
+            });
+            const result = await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+</script>
+
+</html>

@@ -1,5 +1,6 @@
 import dataclasses
 import datetime
+import os
 from typing import List
 
 from buildflow import Flow
@@ -9,20 +10,21 @@ from buildflow.io.duckdb import DuckDBTable
 from buildflow.requests import UploadFile
 from buildflow.responses import FileResponse
 from buildflow.types.aws import S3FileChangeEvent
+import dotenv
 
 from image_classification import Classification, Model
 
+dotenv.load_dotenv()
 
 bucket = S3Bucket(
-    bucket_name="TODO",
-    aws_region="us-east-1",
+    bucket_name=os.environ["S3_BUCKET_NAME"], aws_region="us-east-1"
 ).options(force_destroy=True)
 
 source = S3FileChangeStream(s3_bucket=bucket)
 motherduck_table = DuckDBTable(
     database="md:launchflow_image_classification",
     table="image_classification",
-    motherduck_token="TODO",
+    motherduck_token=os.environ["MOTHERDUCK_TOKEN"],
 )
 
 

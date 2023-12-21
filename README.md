@@ -6,9 +6,7 @@ To run this example, you will need to have an AWS account, and a MotherDuck acco
 
 ## Setup
 
-Update the [bucket name](https://github.com/launchflow/aws-motherduck-image-classification/blob/main/main.py#L16) in `main.py` to a bucket you would like to write the files in. This bucket does not need to be created yet.
-
-Update the [MotherDuck token](https://github.com/launchflow/aws-motherduck-image-classification/blob/main/main.py#L25) to your [MotherDuck service token](https://motherduck.com/docs/authenticating-to-motherduck/#authentication-using-a-service-token).
+In `.env` update `S3_BUCKET_NAME` to a bucket you would like to write the files in. This bucket does not need to be created yet, and update `MOTHERDUCK_TOKEN` to your [MotherDuck service token](https://motherduck.com/docs/authenticating-to-motherduck/#authentication-using-a-service-token).
 
 ## Install Dependencies
 

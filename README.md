@@ -38,3 +38,13 @@ buildflow run
 
 Visit http://localhost:8000 for a simple UI for uploading images. Once uploaded you can view the results in MotherDuck: https://app.motherduck.com
 
+## Cleanup
+
+If you would like to delete the resources created by this example, you can run:
+
+```
+buildflow destroy
+```
+
+and confirm the results. This will delete the bucket, notification, and queue.
+

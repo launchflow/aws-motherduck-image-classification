@@ -1,7 +1,9 @@
 import dataclasses
+import logging
 import os
 import tempfile
-from typing import List
+from typing import Optional, List
+from PIL import UnidentifiedImageError
 
 from buildflow.dependencies import dependency, Scope
 from imageai.Classification import ImageClassification
@@ -22,12 +24,20 @@ class Model:
         self._prediction.setModelPath("mobilenet_v2-b0353104.pth")
         self._prediction.loadModel()
 
-    def predict(self, file_bytes: bytes, result_count: int = 5) -> List[Classification]:
+    def predict(
+        self, file_bytes: bytes, result_count: int = 5
+    ) -> Optional[List[Classification]]:
         with tempfile.NamedTemporaryFile() as tf:
             tf.write(file_bytes)
-            predictions, probabilities = self._prediction.classifyImage(
-                tf.name, result_count=result_count
-            )
+            try:
+                predictions, probabilities = self._prediction.classifyImage(
+                    tf.name, result_count=result_count
+                )
+            except UnidentifiedImageError:
+                logging.error(
+                    "Failed to classify image. Are you sure this was a valid image?"
+                )
+                return None
 
             classifications = []
             for predicition, probability in zip(predictions, probabilities):
